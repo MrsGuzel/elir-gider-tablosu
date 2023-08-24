@@ -1,4 +1,3 @@
-//* Selectors
 const ekleBtn = document.getElementById("ekle-btn")
 const gelirInput = document.getElementById("gelir-input")
 const ekleFormu = document.getElementById("ekle-formu")
@@ -12,7 +11,7 @@ const harcamaAlaniInput = document.getElementById("harcama-alani")
 const tarihInput = document.getElementById("tarih")
 const miktarInput = document.getElementById("miktar")
 
-//* Veriables
+
 
 let gelirler = 0
 
@@ -21,7 +20,7 @@ let harcamaListesi = []
 const harcamaBody = document.getElementById("harcama-body")
 const temizleBtn = document.getElementById("temizle-btn")
 
-//* Events
+
 
 ekleFormu.addEventListener("submit", (e) => {
     e.preventDefault()
@@ -117,12 +116,12 @@ harcamaBody.addEventListener("click", (e) => {
 })
 
 temizleBtn.addEventListener("click", () => {
-    harcamaListesi = []
+    if (confirm("Silmek istediğinize emin misiniz?")){
+        harcamaListesi = []
     gelirler = 0
     localStorage.clear()
     harcamaBody.innerHTML = ""
 
     hesaplaVeGuncelle()
-    
+    }
 })
-//* Functions
