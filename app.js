@@ -4,6 +4,8 @@ const gelirInput = document.getElementById("gelir-input")
 const ekleFormu = document.getElementById("ekle-formu")
 
 const gelirinizTd = document.getElementById("geliriniz")
+const giderinizTd = document.getElementById("gideriniz")
+const kalanTd = document.getElementById("kalan")
 
 const harcamaFormu = document.getElementById("harcama-formu")
 const harcamaAlaniInput = document.getElementById("harcama-alani")
@@ -16,7 +18,8 @@ let gelirler = 0
 
 let harcamaListesi = []
 
-const harcaaBody = document.getElementById("harcama-body")
+const harcamaBody = document.getElementById("harcama-body")
+const temizleBtn = document.getElementById("temizle-btn")
 
 //* Events
 
@@ -34,6 +37,15 @@ hesaplaVeGuncelle()
 
 window.addEventListener("load", () => {
     gelirler = Number(localStorage.getItem("gelirler"))
+
+
+  harcamaListesi = JSON.parse(localStorage.getItem("harcamalar")) || []
+
+  harcamaListesi.forEach((harcama) => harcamayiDomaYaz(harcama))
+
+  console.log(harcamaListesi);
+
+
     tarihInput.valueAsDate = new Date()
 
     hesaplaVeGuncelle()
@@ -55,30 +67,62 @@ localStorage.setItem("harcamalar", JSON.stringify(harcamaListesi))
 
 harcamayiDomaYaz(yeniHarcama)
 
+hesaplaVeGuncelle()
+
 
 harcamaFormu.reset()
 tarihInput.valueAsDate = new Date()
 })
 
 const hesaplaVeGuncelle = () => {
+    const giderler = harcamaListesi.reduce(
+    (toplam, harcama) => toplam + Number(harcama.miktar),
+     0
+    )
 
     gelirinizTd.innerText = gelirler
+    giderinizTd.innerText = giderler
+    kalanTd.innerText = gelirler - giderler
 }
 // const harcamayiDomaYaz = (yeniHarcama) => {
     // const {id, miktar, tarih, alan } = yeniHarcama
     const harcamayiDomaYaz = ({id, miktar, tarih, alan }) => {
-    harcamaBody.innerHTML = `
+    harcamaBody.innerHTML += `
     
+    <tr>
+    <td>${tarih}</td>
+    <td>${alan}</td>
+    <td>${miktar}</td>
+    <td> <i id=${id} class="fa-solid fa-trash-can text-danger" type="button"></i></td>
+   </tr>
     
     `
 }
 
- <tr>
- <th scope="row">1</th>
- <td>Mark</td>
- <td>Otto</td>
- <td>@mdo</td>
-</tr>
+harcamaBody.addEventListener("click", (e) => {
 
+   if(e.target.classList.contains("fa-trash-can")) {
 
+    e.target.parentElement.parentElement.remove()
+
+    const id = e.target.id
+
+    harcamaListesi = harcamaListesi.filter((harcama) => harcama.id !=id)
+
+    localStorage.setItem("harcamalar", JSON.stringify(harcamaListesi))
+    console.log(harcamaListesi);
+
+    hesaplaVeGuncelle()
+   }
+})
+
+temizleBtn.addEventListener("click", () => {
+    harcamaListesi = []
+    gelirler = 0
+    localStorage.clear()
+    harcamaBody.innerHTML = ""
+
+    hesaplaVeGuncelle()
+    
+})
 //* Functions
