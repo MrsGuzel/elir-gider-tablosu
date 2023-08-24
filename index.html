@@ -24,14 +24,16 @@
       </header>
 
       <main class="container" style="max-width: 800px">
-        <form action="" class="d-flex gap-2">
+        <form id="ekle-formu" class="d-flex gap-2">
             <input 
             id="gelir-input" 
             class="form-control" 
             type="number" 
             min="0"
             autofocus 
-            placeholder="Gelirinizi giriniz.">
+            placeholder="Gelirinizi giriniz." 
+            required 
+            >
             <button id="ekle-btn" type="submit" class="btn btn-warning ">Ekle</button>
         </form>
 
@@ -60,7 +62,7 @@
               placeholder="1000₺" 
               required/>
             </div>
-            <div class="col-12">
+            <div class="col-12 text-center">
                 <button id="kaydet" type="submit" class="btn btn-warning">Kaydet</button>
               </div>
     
